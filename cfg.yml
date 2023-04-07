@@ -1,0 +1,77 @@
+pipeline_cfg:
+    gcs_training_pipeline_dir: "training_pipeline_runs"
+    gcs_prediction_pipeline_dir: "prediction_pipeline_runs"
+    pipeline_job_location: "europe-west1"
+    build_location: "europe-west1"
+    model_location: "europe-west1"
+    model_dir: "model_file"
+    trainer_image_name: "pytorch-training-with-vertexai"
+    trigger_location: "global"
+    trigger_name: "trigger-pytorch-prediction-with-vertexai"
+    trainer_code_dir: "training_pipeline/components/train_model/trainer_image/src"
+    build_dir: "training_pipeline/components/build_model"
+    endpoint_model_name: "sentiment_predictor"
+    endpoint_image_name: "pytorch-prediction-with-vertexai"
+    endpoint_predict_route: "/predictions"
+    endpoint_health_route: "/ping"
+    batch_prediction_job_display_name: "sentiment_prediction"
+    batch_prediction_gcs_input_filename: "input.jsonl"
+    batch_prediction_gcs_output_filename: "output.csv"
+    batch_prediction_gcs_output_folder: "predictions"
+    batch_prediction_use_gpu: True
+    model_info_dir: "model_info"
+    output_file_model_info: "model_info.json"
+    output_file_label_map: "label_map.json"
+model_cfg:
+    en:
+        model_name: "bert-base-cased"
+        lr: 1e-4
+        dropout: 0.3
+        n_hidden: 1
+        batch_size: 64
+        num_epochs: 20
+        val_size: 0.1
+        trainer_machine_type: "n1-standard-4"
+        trainer_replica_count: 1
+        trainer_n_gpu: 1
+        trainer_gpu_type: "NVIDIA_TESLA_P100"
+        endpoint_machine_type: "n1-standard-4"
+    fr:
+        model_name: "dbmdz/bert-base-french-europeana-cased"
+        lr: 1e-4
+        dropout: 0.3
+        n_hidden: 1
+        batch_size: 64
+        num_epochs: 20
+        val_size: 0.1
+        trainer_machine_type: "n1-standard-4"
+        trainer_replica_count: 1
+        trainer_n_gpu: 1
+        trainer_gpu_type: "NVIDIA_TESLA_P100"
+        endpoint_machine_type: "n1-standard-4"
+    nl:
+        model_name: "GroNLP/bert-base-dutch-cased"
+        lr: 1e-4
+        dropout: 0.3
+        n_hidden: 1
+        batch_size: 64
+        num_epochs: 20
+        val_size: 0.1
+        trainer_machine_type: "n1-standard-4"
+        trainer_replica_count: 1
+        trainer_n_gpu: 1
+        trainer_gpu_type: "NVIDIA_TESLA_P100"
+        endpoint_machine_type: "n1-standard-4"
+    de:
+        model_name: "bert-base-german-cased"
+        lr: 1e-4
+        dropout: 0.3
+        n_hidden: 1
+        batch_size: 64
+        num_epochs: 20
+        val_size: 0.1
+        trainer_machine_type: "n1-standard-4"
+        trainer_replica_count: 1
+        trainer_n_gpu: 1
+        trainer_gpu_type: "NVIDIA_TESLA_P100"
+        endpoint_machine_type: "n1-standard-4"

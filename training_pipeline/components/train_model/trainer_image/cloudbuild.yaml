@@ -1,0 +1,17 @@
+steps:
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - '--no-cache'
+      - '-t'
+      - $_IMG_URI
+      - $_BUILD_DIR
+      - '-f'
+      - $_BUILD_DIR/Dockerfile
+    id: Build
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - $_IMG_URI
+    id: Push
+timeout: 45m

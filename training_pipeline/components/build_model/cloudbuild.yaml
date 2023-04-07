@@ -1,0 +1,28 @@
+steps:
+  - name: gcr.io/cloud-builders/gsutil
+    entrypoint: bash
+    args:
+      - '$_BUILD_DIR/copy_artifacts.sh'
+    env:
+      - _MODEL_DIR=$_MODEL_DIR
+      - _TOKENIZER_DIR=$_TOKENIZER_DIR
+      - _TRAINER_CODE_DIR=$_TRAINER_CODE_DIR
+      - _BUILD_DIR=$_BUILD_DIR
+      - _LABEL_MAP_FILE=$_LABEL_MAP_FILE
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - '--build-arg'
+      - _MODEL_NAME=$_MODEL_NAME
+      - '-t'
+      - '$_IMG_URI:$COMMIT_SHA'
+      - $_BUILD_DIR
+      - '-f'
+      - $_BUILD_DIR/Dockerfile
+    id: Build
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - '$_IMG_URI:$COMMIT_SHA'
+    id: Push
+timeout: 60m
