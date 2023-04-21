@@ -4,3 +4,4 @@ google-auth
 kfp
 pandas
 pyarrow
+db-dtypes
